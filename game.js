@@ -45,6 +45,7 @@ $('#container').html(output);
 var guess1 = "";
 var guess2 = "";
 var count = 0;
+var matches = 0;
 
 $(".flip-container").click(function() {
   if (window.processing) return;
@@ -64,6 +65,7 @@ $(".flip-container").click(function() {
 
       if (guess1.attr('src') == guess2.attr('src')) {
         console.log("match");
+        matches++;
         guess1.addClass('match');
         guess2.addClass('match');
         window.processing = false;
@@ -77,6 +79,11 @@ $(".flip-container").click(function() {
         }, 1000);
       }
 
+      if (matches == 8) {
+        $('.won').removeClass('hidden');
+        clearInterval(timeInterval);
+        $('.shots').html( Math.ceil(counter / 30) );
+      }
       guess1 = guess2 = undefined;
       
       // reset
@@ -102,3 +109,9 @@ function randomizeImages(){
   
   images.randomize();
 }
+
+var counter = 0;
+var timeInterval = setInterval(function() {
+  counter++;
+  $('.time').html(counter);
+}, 1000);
